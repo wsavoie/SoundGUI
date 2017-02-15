@@ -26,6 +26,7 @@
 #define IDC_BUTTON_STOP	108			// Button identifier
 #define IDC_BUTTON_SOUNDMAX			109			// Button identifier
 #define IDC_BUTTON_SOUNDMIN			110			// Button identifier
+#define IDC_BUTTON_FREQBOX	111			// Button identifier
 #define IDC_SLIDER			120			// Button identifier
 
 struct params {
@@ -199,6 +200,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	HWND freq325;
 	HWND freq375;
 	HWND freq425;
+	HWND freqBox;
 	HWND StopButton;
 	HWND soundMax;
 	HWND soundMin;
@@ -245,20 +247,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		int yHeight_Slider = 90;
 
 
-		//freq85 = CreateWindow(
-		//	L"BUTTON",  // Predefined class; Unicode assumed 
-		//	L"125",      // Button text 
-		//	WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
-		//	(w + spacer)*butNum,         // x position 
-		//	yHeight_Buttons,         // y position 
-		//	w,        // Button width
-		//	h,        // Button height
-		//	hWnd,     // Parent window
-		//	(HMENU)IDC_BUTTON_85,       // No menu.
-		//	(HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE),
-		//	NULL);      // Pointer not needed.
+		freq85 = CreateWindow(
+			L"BUTTON",  // Predefined class; Unicode assumed 
+			L"85",      // Button text 
+			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
+			(w + spacer)*butNum,         // x position 
+			yHeight_Buttons,         // y position 
+			w,        // Button width
+			h,        // Button height
+			hWnd,     // Parent window
+			(HMENU)IDC_BUTTON_85,       // No menu.
+			(HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE),
+			NULL);      // Pointer not needed.
 
-		//butNum++;
+		butNum++;
 
 		freq125 = CreateWindow(
 			L"BUTTON",  // Predefined class; Unicode assumed 
@@ -356,6 +358,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			NULL);      // Pointer not needed.
 
 
+		freqBox = CreateWindow(
+			L"BUTTON",  // Predefined class; Unicode assumed 
+			L"425",      // Button text 
+			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
+			(w + spacer)*butNum,         // x position 
+			yHeight_Buttons,         // y position 
+			w,        // Button width
+			h,        // Button height
+			hWnd,     // Parent window
+			(HMENU)IDC_BUTTON_425,       // No menu.
+			(HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE),
+			NULL);      // Pointer not needed.
+
+
 		StopButton = CreateWindow(
 			L"BUTTON",  // Predefined class; Unicode assumed 
 			L"STOP",      // Button text 
@@ -395,6 +411,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			(HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE),
 			NULL);      // Pointer not needed.
 
+		//freqBox = CreateWindow(
+		//	L"EDIT",  // Predefined class; Unicode assumed 
+		//	L"100",      // Button text 
+		//	ES_NUMBER | ES_LEFT | WS_VISIBLE | WS_CHILD ,  // Styles 
+		//	220,         // x position 
+		//	yHeight_Buttons + 50,         // y position 
+		//	w + 20,        // Button width
+		//	h,        // Button height
+		//	hWnd,     // Parent window
+		//	(HMENU)IDC_BUTTON_FREQBOX,       // No menu.
+		//	(HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE),
+		//	NULL);      // Pointer not needed.
 
 		Slider = CreateWindowEx(
 			0,                               // no extended styles 
@@ -423,22 +451,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (LOWORD(wParam))
 		{
 
-			//case IDC_BUTTON_85: case ID_F1_125:
-			//{
-			//	int freq = 85;
-			//	params p(freq);
-			//	_beginthread(BeepProc, 0, &p);
+			case IDC_BUTTON_85: case ID_F1_85:
+			{
+				int freq = 85;
+				params p(freq);
+				_beginthread(BeepProc, 0, &p);
 
-			//	swprintf(buffer, L"PLAYING %d Hz", freq);
-			//	SendMessage(hWnd,
-			//		WM_SETTEXT,
-			//		sizeof(buffer) / sizeof(buffer[0]),
-			//		reinterpret_cast<LPARAM>(buffer));
+				swprintf(buffer, L"PLAYING %d Hz", freq);
+				SendMessage(hWnd,
+					WM_SETTEXT,
+					sizeof(buffer) / sizeof(buffer[0]),
+					reinterpret_cast<LPARAM>(buffer));
 
-			//	break;
-			//}
+				break;
+			}
 
-		case IDC_BUTTON_125: case ID_F1_125:
+		case IDC_BUTTON_125: case ID_F2_125:
 		{
 			int freq = 125;
 			params p(freq);
@@ -452,7 +480,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			break;
 		}
-		case IDC_BUTTON_175: case ID_F2_175:
+		case IDC_BUTTON_175: case ID_F3_175:
 		{
 			int freq = 175;
 			params p(freq);
@@ -466,7 +494,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			break;
 		}
-		case IDC_BUTTON_225: case ID_F3_225:
+		case IDC_BUTTON_225: case ID_F4_225:
 		{
 			int freq = 225;
 			params p(freq);
@@ -480,7 +508,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			break;
 		}
-		case IDC_BUTTON_275: case ID_F4_275:
+		case IDC_BUTTON_275: case ID_F5_275:
 		{
 			int freq = 275;
 			params p(freq);
@@ -494,7 +522,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			break;
 		}
-		case IDC_BUTTON_325: case ID_F5_325:
+		case IDC_BUTTON_325: case ID_F6_325:
 		{
 			int freq = 325;
 			params p(freq);
@@ -508,7 +536,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			break;
 		}
-		case IDC_BUTTON_375: case ID_F6_375:
+		case IDC_BUTTON_375: case ID_F7_375:
 		{
 			int freq = 375;
 			params p(freq);
@@ -523,7 +551,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 
-		case IDC_BUTTON_425: case ID_F7_425:
+		case IDC_BUTTON_425: case ID_F8_425:
 		{
 			int freq = 425;
 			params p(freq);
@@ -600,6 +628,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			break;
 		}
+
+		//case IDC_BUTTON_FREQBOX: case ID_RTN_FREQBOX:
+		//{
+		//	auto c = HIWORD(wParam);
+		//
+		//	swprintf(buffer, L"STOPPED Current Volume: %1.0f", c);
+		//	//try {}
+		//	//catch (UINT e){swprintf(buffer, L"ERROR %d", e);}
+
+		//	Beep(1, 1);
+		//	SendMessage(hWnd,
+		//		WM_SETTEXT,
+		//		sizeof(buffer) / sizeof(buffer[0]),
+		//		reinterpret_cast<LPARAM>(buffer));
+
+		//	break;
+		//}
+
 		}
 	}
 
