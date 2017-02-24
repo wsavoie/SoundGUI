@@ -1,6 +1,7 @@
 // GT_HelloWorldWin32.cpp  
 // compile with: /D_UNICODE /DUNICODE /DWIN32 /D_WINDOWS /c  
 
+#include <math.h>
 #include <windows.h>  
 #include <stdlib.h>  
 #include <string.h>  
@@ -14,6 +15,7 @@
 #include <endpointvolume.h>
 #include <process.h>    /* _beginthread, _endthread */  
 #include "resource.h"
+#include "wavfile.h"
 #pragma comment(lib, "winmm")
 #define IDC_BUTTON_85	100			// Button identifier
 #define IDC_BUTTON_125	101			// Button identifier
@@ -28,7 +30,9 @@
 #define IDC_BUTTON_SOUNDMIN			110			// Button identifier
 #define IDC_BUTTON_FREQBOX	111			// Button identifier
 #define IDC_SLIDER			120			// Button identifier
-
+#define S_RATE  (8192)
+#define BUF_SIZE (S_RATE*2) /* 2 second buffer */
+#define M_PI   3.14159265358979323846264338327950288
 struct params {
 	explicit params(int mfreq, int mtime = 1000000) :
 		freq(mfreq), time(mtime) {}
@@ -37,11 +41,15 @@ struct params {
 	int time;
 
 };
+int buffer2[BUF_SIZE];
+wchar_t buffer[55];
+int t = 100000;
 void BeepProc(void * param);
-
+void BeepProc2(void* param);
+void BeepProc3(void* param);
 DWORD volume;
 static HWAVEOUT hwo;
-#define BeepAsync(f,t) _beginthread(BeepProc, 0, (f << 16) & t)
+#define BeepAsync(f,t) _beginthread(BeepProc2, 0, (void*)((f << 16) + t))
 HWND hEdit;
 // Global variables  
 
@@ -65,6 +73,30 @@ int CALLBACK WinMain(
 	_In_ int       nCmdShow
 )
 {
+
+	const int NUM_SAMPLES = (WAVFILE_SAMPLES_PER_SECOND);
+	short waveform[NUM_SAMPLES];
+	double frequency = 440.0;
+	int volume = 32000;
+	int length = NUM_SAMPLES;
+
+	int i;
+	for (i = 0; i<length; i++) {
+		double t = (double)i / WAVFILE_SAMPLES_PER_SECOND;
+		waveform[i] = volume*sin(frequency*t * 2 * M_PI);
+	}
+
+	FILE * f = wavfile_open("sound.wav");
+	if (!f) {
+		printf("couldn't open sound.wav for writing: %s", strerror(errno));
+		return 1;
+	}
+
+	wavfile_write(f, waveform, length);
+	wavfile_close(f);
+
+
+
 	WNDCLASSEX wcex;
 
 	wcex.cbSize = sizeof(WNDCLASSEX);
@@ -204,7 +236,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	HWND StopButton;
 	HWND soundMax;
 	HWND soundMin;
-	wchar_t buffer[55];
+
 	HWND Slider;
 
 	HWND hwndHot = NULL;
@@ -455,8 +487,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			{
 				int freq = 85;
 				params p(freq);
-				_beginthread(BeepProc, 0, &p);
-
+				//_beginthread(BeepProc, 0, &p);
+				int s = (freq << 16) + 100000;
+				_beginthread(BeepProc2, 0, (void*)s);
 				swprintf(buffer, L"PLAYING %d Hz", freq);
 				SendMessage(hWnd,
 					WM_SETTEXT,
@@ -470,7 +503,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			int freq = 125;
 			params p(freq);
-			_beginthread(BeepProc, 0, &p);
+			int s = (freq << 16) + 100000;
+			_beginthread(BeepProc2, 0, (void*)s);
 
 			swprintf(buffer, L"PLAYING %d Hz", freq);
 			SendMessage(hWnd,
@@ -484,7 +518,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			int freq = 175;
 			params p(freq);
-			_beginthread(BeepProc, 0, &p);
+			int s = (freq << 16) + 100000;
+			_beginthread(BeepProc2, 0, (void*)s);
 
 			swprintf(buffer, L"PLAYING %d Hz", freq);
 			SendMessage(hWnd,
@@ -498,7 +533,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			int freq = 225;
 			params p(freq);
-			_beginthread(BeepProc, 0, &p);
+			int s = (freq << 16) + 100000;
+			_beginthread(BeepProc2, 0, (void*)s);
 
 			swprintf(buffer, L"PLAYING %d Hz", freq);
 			SendMessage(hWnd,
@@ -512,7 +548,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			int freq = 275;
 			params p(freq);
-			_beginthread(BeepProc, 0, &p);
+			int s = (freq << 16) + 100000;
+			_beginthread(BeepProc2, 0, (void*)s);
 
 			swprintf(buffer, L"PLAYING %d Hz", freq);
 			SendMessage(hWnd,
@@ -526,7 +563,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			int freq = 325;
 			params p(freq);
-			_beginthread(BeepProc, 0, &p);
+			int s = (freq << 16) + 100000;
+			_beginthread(BeepProc2, 0, (void*)s);
 
 			swprintf(buffer, L"PLAYING %d Hz", freq);
 			SendMessage(hWnd,
@@ -540,7 +578,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			int freq = 375;
 			params p(freq);
-			_beginthread(BeepProc, 0, &p);
+			int s = (freq << 16) + 1000;
+			_beginthread(BeepProc2, 0, (void*)freq);
 
 			swprintf(buffer, L"PLAYING %d Hz", freq);
 			SendMessage(hWnd,
@@ -554,9 +593,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case IDC_BUTTON_425: case ID_F8_425:
 		{
 			int freq = 425;
+			/*
 			params p(freq);
-			_beginthread(BeepProc, 0, &p);
+			int s = (400 << 16) + 1000;
+			Beep(425, 10000);
+			_beginthread(BeepProc3, 0, (void*)s)*/
 
+
+			//_beginthread(BeepProc2, 0, (void*)freq);
 			swprintf(buffer, L"PLAYING %d Hz", freq);
 			SendMessage(hWnd,
 				WM_SETTEXT,
@@ -689,4 +733,19 @@ void BeepProc(void * param)
 {
 	params* p = (params*)param;
 	Beep(p->freq, p->time);
+}
+
+void BeepProc2(void* param)
+{
+	unsigned int freq = (unsigned int)param;
+	//int t = 100000;
+	
+	Beep(freq, t);
+}
+void BeepProc3(void* param)
+{
+	unsigned int bparam = (unsigned int)param;
+	int bp1 = bparam >> 16;
+	int bp2 = bparam & 0xffff;
+	Beep(bp1, bp2);
 }
