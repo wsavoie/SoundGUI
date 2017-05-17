@@ -1,0 +1,31 @@
+# csv files#
+###################
+*.csv
+
+# matlab autosave files#
+########################
+*.asv
+
+# matlab matrix files#
+########################
+*.mat
+
+# movie files#
+########################
+*.avi
+
+# jpegs#
+########################
+*.avi
+
+#visual studio files#
+*.obj
+*.tlog
+*.lastbuildstate
+*.res
+*.pdb
+*.aps
+*.ips
+*.filters
+*.idb
+*.vcxproj
