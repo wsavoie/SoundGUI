@@ -1,0 +1,4 @@
+in visual studio 2017, create "empty project"
+
+put soundGUI.rc and speaker_icon.ico in resource files
+put SoundGUI.cpp in source files

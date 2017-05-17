@@ -16,6 +16,8 @@
 #include <process.h>    /* _beginthread, _endthread */  
 #include "resource.h"
 #include "wavfile.h"
+
+
 #pragma comment(lib, "winmm")
 #define IDC_BUTTON_85	100			// Button identifier
 #define IDC_BUTTON_125	101			// Button identifier
@@ -80,21 +82,7 @@ int CALLBACK WinMain(
 	int volume = 32000;
 	int length = NUM_SAMPLES;
 
-	int i;
-	for (i = 0; i<length; i++) {
-		double t = (double)i / WAVFILE_SAMPLES_PER_SECOND;
-		waveform[i] = volume*sin(frequency*t * 2 * M_PI);
-	}
-
-	FILE * f = wavfile_open("sound.wav");
-	if (!f) {
-		printf("couldn't open sound.wav for writing: %s", strerror(errno));
-		return 1;
-	}
-
-	wavfile_write(f, waveform, length);
-	wavfile_close(f);
-
+	
 
 
 	WNDCLASSEX wcex;
@@ -280,8 +268,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 
 		freq85 = CreateWindow(
-			L"BUTTON",  // Predefined class; Unicode assumed 
-			L"85",      // Button text 
+			"BUTTON",  // Predefined class; Unicode assumed 
+			"85",      // Button text 
 			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 			(w + spacer)*butNum,         // x position 
 			yHeight_Buttons,         // y position 
@@ -295,8 +283,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		butNum++;
 
 		freq125 = CreateWindow(
-			L"BUTTON",  // Predefined class; Unicode assumed 
-			L"125",      // Button text 
+			"BUTTON",  // Predefined class; Unicode assumed 
+			"125",      // Button text 
 			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 			(w + spacer)*butNum,         // x position 
 			yHeight_Buttons,         // y position 
@@ -309,8 +297,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		butNum++;
 		freq175 = CreateWindow(
-			L"BUTTON",  // Predefined class; Unicode assumed 
-			L"175",      // Button text 
+			"BUTTON",  // Predefined class; Unicode assumed 
+			"175",      // Button text 
 			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 			(w + spacer)*butNum,         // x position 
 			yHeight_Buttons,         // y position 
@@ -322,8 +310,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			NULL);      // Pointer not needed.
 		butNum++;
 		freq225 = CreateWindow(
-			L"BUTTON",  // Predefined class; Unicode assumed 
-			L"225",      // Button text 
+			"BUTTON",  // Predefined class; Unicode assumed 
+			"225",      // Button text 
 			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 			(w + spacer)*butNum,         // x position 
 			yHeight_Buttons,         // y position 
@@ -336,8 +324,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		butNum++;
 
 		freq275 = CreateWindow(
-			L"BUTTON",  // Predefined class; Unicode assumed 
-			L"275",      // Button text 
+			"BUTTON",  // Predefined class; Unicode assumed 
+			"275",      // Button text 
 			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 			(w + spacer)*butNum,         // x position 
 			yHeight_Buttons,         // y position 
@@ -350,8 +338,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		butNum++;
 
 		freq325 = CreateWindow(
-			L"BUTTON",  // Predefined class; Unicode assumed 
-			L"325",      // Button text 
+			"BUTTON",  // Predefined class; Unicode assumed 
+			"325",      // Button text 
 			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 			(w + spacer)*butNum,         // x position 
 			yHeight_Buttons,         // y position 
@@ -364,8 +352,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		butNum++;
 
 		freq375 = CreateWindow(
-			L"BUTTON",  // Predefined class; Unicode assumed 
-			L"375",      // Button text 
+			"BUTTON",  // Predefined class; Unicode assumed 
+			"375",      // Button text 
 			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 			(w + spacer)*butNum,         // x position 
 			yHeight_Buttons,         // y position 
@@ -377,8 +365,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			NULL);      // Pointer not needed.
 		butNum++;
 		freq425 = CreateWindow(
-			L"BUTTON",  // Predefined class; Unicode assumed 
-			L"425",      // Button text 
+			"BUTTON",  // Predefined class; Unicode assumed 
+			"425",      // Button text 
 			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 			(w + spacer)*butNum,         // x position 
 			yHeight_Buttons,         // y position 
@@ -391,8 +379,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 
 		freqBox = CreateWindow(
-			L"BUTTON",  // Predefined class; Unicode assumed 
-			L"425",      // Button text 
+			"BUTTON",  // Predefined class; Unicode assumed 
+			"425",      // Button text 
 			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 			(w + spacer)*butNum,         // x position 
 			yHeight_Buttons,         // y position 
@@ -405,8 +393,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 
 		StopButton = CreateWindow(
-			L"BUTTON",  // Predefined class; Unicode assumed 
-			L"STOP",      // Button text 
+			"BUTTON",  // Predefined class; Unicode assumed 
+			"STOP",      // Button text 
 			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 			150,         // x position 
 			yHeight_Buttons + 80,         // y position 
@@ -418,8 +406,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			NULL);      // Pointer not needed.
 
 		soundMin = CreateWindow(
-			L"BUTTON",  // Predefined class; Unicode assumed 
-			L"Min Vol",      // Button text 
+			"BUTTON",  // Predefined class; Unicode assumed 
+			"Min Vol",      // Button text 
 			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 			220,         // x position 
 			yHeight_Buttons + 80,         // y position 
@@ -431,8 +419,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			NULL);      // Pointer not needed.
 
 		soundMax = CreateWindow(
-			L"BUTTON",  // Predefined class; Unicode assumed 
-			L"Max Vol",      // Button text 
+			"BUTTON",  // Predefined class; Unicode assumed 
+			"Max Vol",      // Button text 
 			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 			220,         // x position 
 			yHeight_Buttons + 110,         // y position 
@@ -458,8 +446,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		Slider = CreateWindowEx(
 			0,                               // no extended styles 
-			L"SLIDER",                  // class name 
-			L"Trackbar Control",              // title (caption) 
+			"SLIDER",                  // class name 
+			"Trackbar Control",              // title (caption) 
 			WS_CHILD |
 			WS_VISIBLE | WM_HSCROLL,
 			w * 4, yHeight_Slider,                          // position 
@@ -490,7 +478,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				//_beginthread(BeepProc, 0, &p);
 				int s = (freq << 16) + 100000;
 				_beginthread(BeepProc2, 0, (void*)s);
-				swprintf(buffer, L"PLAYING %d Hz", freq);
+				swprintf(buffer,55, L"PLAYING %d Hz", freq);
 				SendMessage(hWnd,
 					WM_SETTEXT,
 					sizeof(buffer) / sizeof(buffer[0]),
@@ -506,7 +494,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			int s = (freq << 16) + 100000;
 			_beginthread(BeepProc2, 0, (void*)s);
 
-			swprintf(buffer, L"PLAYING %d Hz", freq);
+			swprintf(buffer,55, L"PLAYING %d Hz", freq);
 			SendMessage(hWnd,
 				WM_SETTEXT,
 				sizeof(buffer) / sizeof(buffer[0]),
@@ -521,7 +509,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			int s = (freq << 16) + 100000;
 			_beginthread(BeepProc2, 0, (void*)s);
 
-			swprintf(buffer, L"PLAYING %d Hz", freq);
+			swprintf(buffer,55, L"PLAYING %d Hz", freq);
 			SendMessage(hWnd,
 				WM_SETTEXT,
 				sizeof(buffer) / sizeof(buffer[0]),
@@ -536,7 +524,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			int s = (freq << 16) + 100000;
 			_beginthread(BeepProc2, 0, (void*)s);
 
-			swprintf(buffer, L"PLAYING %d Hz", freq);
+			swprintf(buffer,55, L"PLAYING %d Hz", freq);
 			SendMessage(hWnd,
 				WM_SETTEXT,
 				sizeof(buffer) / sizeof(buffer[0]),
@@ -551,7 +539,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			int s = (freq << 16) + 100000;
 			_beginthread(BeepProc2, 0, (void*)s);
 
-			swprintf(buffer, L"PLAYING %d Hz", freq);
+			swprintf(buffer,55, L"PLAYING %d Hz", freq);
 			SendMessage(hWnd,
 				WM_SETTEXT,
 				sizeof(buffer) / sizeof(buffer[0]),
@@ -566,7 +554,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			int s = (freq << 16) + 100000;
 			_beginthread(BeepProc2, 0, (void*)s);
 
-			swprintf(buffer, L"PLAYING %d Hz", freq);
+			swprintf(buffer,55, L"PLAYING %d Hz", freq);
 			SendMessage(hWnd,
 				WM_SETTEXT,
 				sizeof(buffer) / sizeof(buffer[0]),
@@ -581,7 +569,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			int s = (freq << 16) + 1000;
 			_beginthread(BeepProc2, 0, (void*)freq);
 
-			swprintf(buffer, L"PLAYING %d Hz", freq);
+			swprintf(buffer,55, L"PLAYING %d Hz", freq);
 			SendMessage(hWnd,
 				WM_SETTEXT,
 				sizeof(buffer) / sizeof(buffer[0]),
@@ -601,7 +589,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 
 			//_beginthread(BeepProc2, 0, (void*)freq);
-			swprintf(buffer, L"PLAYING %d Hz", freq);
+			swprintf(buffer,55, L"PLAYING %d Hz", freq);
 			SendMessage(hWnd,
 				WM_SETTEXT,
 				sizeof(buffer) / sizeof(buffer[0]),
@@ -617,7 +605,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			//endpointVolume->GetMasterVolumeLevelScalar(&currentVolume);
 			double newVol = 0;
 			endpointVolume->SetMasterVolumeLevelScalar((float)newVol, NULL);
-			swprintf(buffer, L"Volume: %1.0f", newVol * 100);
+			swprintf(buffer,55, L"Volume: %1.0f", newVol * 100);
 			SendMessage(hWnd,
 				WM_SETTEXT,
 				sizeof(buffer) / sizeof(buffer[0]),
@@ -631,7 +619,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			//endpointVolume->GetMasterVolumeLevelScalar(&currentVolume);
 			double newVol = 1;
 			endpointVolume->SetMasterVolumeLevelScalar((float)newVol, NULL);
-			swprintf(buffer, L"Volume: %1.0f", newVol * 100);
+			swprintf(buffer,55, L"Volume: %1.0f", newVol * 100);
 			SendMessage(hWnd,
 				WM_SETTEXT,
 				sizeof(buffer) / sizeof(buffer[0]),
@@ -647,7 +635,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			params p(freq);
 			_beginthread(BeepProc, 0, &p);
 
-			swprintf(buffer, L"PLAYING %d Hz", freq);
+			swprintf(buffer,55, L"PLAYING %d Hz", freq);
 			SendMessage(hWnd,
 				WM_SETTEXT,
 				sizeof(buffer) / sizeof(buffer[0]),
@@ -660,9 +648,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			float currentVolume = 0;
 			endpointVolume->GetMasterVolumeLevelScalar(&currentVolume);
-			swprintf(buffer, L"STOPPED Current Volume: %1.0f", currentVolume * 100);
+			swprintf(buffer,55, L"STOPPED Current Volume: %1.0f", currentVolume * 100);
 			//try {}
-			//catch (UINT e){swprintf(buffer, L"ERROR %d", e);}
+			//catch (UINT e){swprintf(buffer,55, L"ERROR %d", e);}
 
 			Beep(1, 1);
 			SendMessage(hWnd,
@@ -677,9 +665,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		//{
 		//	auto c = HIWORD(wParam);
 		//
-		//	swprintf(buffer, L"STOPPED Current Volume: %1.0f", c);
+		//	swprintf(buffer,55, L"STOPPED Current Volume: %1.0f", c);
 		//	//try {}
-		//	//catch (UINT e){swprintf(buffer, L"ERROR %d", e);}
+		//	//catch (UINT e){swprintf(buffer,55, L"ERROR %d", e);}
 
 		//	Beep(1, 1);
 		//	SendMessage(hWnd,
