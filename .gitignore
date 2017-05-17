@@ -19,6 +19,7 @@
 *.avi
 
 #visual studio files#
+SoundGUI\*
 *.obj
 *.tlog
 *.lastbuildstate
